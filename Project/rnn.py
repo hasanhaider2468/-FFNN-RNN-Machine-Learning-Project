@@ -73,7 +73,6 @@ if __name__ == "__main__":
 
     print("========== Loading data ==========")
     train_data, valid_data = load_data(args.train_data, args.val_data) # X_data is a list of pairs (document, y); y in {0,1,2,3,4}
-
     # Think about the type of function that an RNN describes. To apply it, you will need to convert the text data into vector representations.
     # Further, think about where the vectors will come from. There are 3 reasonable choices:
     # 1) Randomly assign the input to vectors and learn better embeddings during training; see the PyTorch documentation for guidance
@@ -92,7 +91,7 @@ if __name__ == "__main__":
 
     last_train_accuracy = 0
     last_validation_accuracy = 0
-
+    
     while not stopping_condition:
         random.shuffle(train_data)
         model.train()
