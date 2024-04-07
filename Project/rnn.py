@@ -30,16 +30,20 @@ class RNN(nn.Module):
         return self.loss(predicted_vector, gold_label)
 
     def forward(self, inputs):
-        # [to fill] obtain hidden layer representation (https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)
+        
+         # [to fill] obtain hidden layer representation (https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)
         _, hidden = self.rnn(inputs)
+
         # [to fill] obtain output layer representations
-        output = self.W(hidden[-1])
+        output = self.W(hidden[-1])  # Taking the last hidden state for simplicity
 
         # [to fill] sum over output 
-        output_sum = torch.sum(output, dim=0)
-        # [to fill] obtain probability dist.
-        predicted_vector = self.softmax(output_sum)
-        return predicted_vector
+        summed_output = torch.sum(output, dim=0)
+
+        # [to fill] obtain probability dist
+        prob_dist = torch.nn.functional.log_softmax(summed_output, dim=0)
+
+        return prob_dist
 
 
 def load_data(train_data, val_data):
@@ -79,7 +83,7 @@ if __name__ == "__main__":
 
     print("========== Vectorizing data ==========")
     model = RNN(50, args.hidden_dim)  # Fill in parameters
-    # optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+    #optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
     optimizer = optim.Adam(model.parameters(), lr=0.01)
     word_embedding = pickle.load(open('./word_embedding.pkl', 'rb'))
 
